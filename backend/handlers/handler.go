@@ -2,11 +2,18 @@ package handlers
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/arfaghif/TGTCx/backend/dictionary"
 	"github.com/arfaghif/TGTCx/backend/domain/product"
@@ -79,6 +86,69 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	product.UpdateProduct(context.Background(), p)
+
+	fmt.Fprintf(w, "success")
+}
+
+func UploadBanner(w http.ResponseWriter, r *http.Request) {
+	var banner dictionary.Banner
+
+	if err := r.ParseMultipartForm(1024); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	banner.Name = r.FormValue("name")
+	banner.Description = r.FormValue("description")
+	banner.Tags = strings.Split(r.FormValue("tags"), ",")
+	var err error
+	banner.StartDate, err = time.Parse(time.RFC3339, r.FormValue("start_date"))
+	if err != nil {
+		http.Error(w, "bad request", 400)
+	}
+	banner.EndDate, err = time.Parse(time.RFC3339, r.FormValue("end_date"))
+	if err != nil {
+		http.Error(w, "bad request", 400)
+	}
+
+	file, handler, err := r.FormFile("file")
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	dir, err := os.Getwd()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	filename := handler.Filename
+	randBytes := make([]byte, 16)
+	rand.Read(randBytes)
+	filename = hex.EncodeToString(randBytes) + "_" + filename
+
+	fileLocation := filepath.Join(dir, "files", "banners", filename)
+	targetFile, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer targetFile.Close()
+
+	if _, err := io.Copy(targetFile, file); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	banner.ImgPath = fileLocation
+
+	if err := service.UploadBanner(banner); err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		return
+	}
 
 	fmt.Fprintf(w, "success")
 }

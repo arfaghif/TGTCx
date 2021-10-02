@@ -17,6 +17,7 @@ type Banner struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	ImgPath     string    `json:"img_path"`
+	Tags        []string  `json:"tags"`
 	StartDate   time.Time `json:"start_date"`
 	EndDate     time.Time `json:"end_date"`
 }
