@@ -243,7 +243,7 @@ func AddTagBanner(id int, tags []string) (err error) {
 		}
 		query2 += "($" + strconv.Itoa(2*i-1) + ",$" + strconv.Itoa((2 * i)) + ")"
 		i++
-		tagIDs = append(tagIDs, tags)
+		tagIDs = append(tagIDs, id)
 		tagIDs = append(tagIDs, tagID)
 		if i == len(tags) {
 			query2 += ","
@@ -257,6 +257,7 @@ func AddTagBanner(id int, tags []string) (err error) {
 	// 	log.Println("failed insert tag")
 	// 	return
 	// }
+	log.Println(query2)
 	query2 += " ON CONFLICT DO NOTHING"
 	log.Println(query2)
 	_, err = tx.ExecContext(ctx, query2, tagIDs...)

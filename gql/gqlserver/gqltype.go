@@ -29,7 +29,7 @@ var ProductType = graphql.NewObject(
 var BannerType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name:        "Banner",
-		Description: "Detail of the product",
+		Description: "Detail of Banner",
 		Fields: graphql.Fields{
 			"id": &graphql.Field{
 				Type: graphql.Int,
@@ -37,13 +37,16 @@ var BannerType = graphql.NewObject(
 			"name": &graphql.Field{
 				Type: graphql.String,
 			},
-			"product_price": &graphql.Field{
-				Type: graphql.Int,
-			},
-			"image_url": &graphql.Field{
+			"description": &graphql.Field{
 				Type: graphql.String,
 			},
-			"shop_name": &graphql.Field{
+			"image_path": &graphql.Field{
+				Type: graphql.String,
+			},
+			"start_date": &graphql.Field{
+				Type: graphql.String,
+			},
+			"end_date": &graphql.Field{
 				Type: graphql.String,
 			},
 		},

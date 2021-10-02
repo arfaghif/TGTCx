@@ -77,6 +77,19 @@ func (s *SchemaWrapper) Init() error {
 					},
 					Resolve: s.productResolver.GetProduct(),
 				},
+				"AddBannerTag": &graphql.Field{
+					Type:        BannerType,
+					Description: "Add Tag a Banner",
+					Args: graphql.FieldConfigArgument{
+						"id": &graphql.ArgumentConfig{
+							Type: graphql.Int,
+						},
+						"tags": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+					},
+					Resolve: s.productResolver.AddBannerTags(),
+				},
 			},
 		}),
 	})
