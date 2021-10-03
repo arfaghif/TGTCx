@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/arfaghif/TGTCx/backend/database"
 	"github.com/arfaghif/TGTCx/backend/dictionary"
@@ -269,4 +270,12 @@ func AddTagBanner(id int, tags []string) (err error) {
 	}
 
 	return tx.Commit()
+}
+
+func UpdateBanner(id int, name string, description string, image_path string, start_date time.Time, end_date time.Time) (banner dictionary.Banner, err error) {
+	result := dictionary.Banner{Name: name, Description: description, ImgPath: image_path}
+
+	fmt.Println(id, name, description, image_path, start_date, end_date)
+
+	return result, nil
 }

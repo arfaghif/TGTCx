@@ -4,6 +4,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/arfaghif/TGTCx/backend/helper"
 	"github.com/arfaghif/TGTCx/backend/service"
 	"github.com/graphql-go/graphql"
 )
@@ -38,6 +39,33 @@ func (r *Resolver) AddBannerTags() graphql.FieldResolveFn {
 			id,
 			strings.Split(tags, ","),
 		)
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		}
+		// update to use Usecase from previous session
+		return nil, err
+	}
+}
+
+func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
+	return func(p graphql.ResolveParams) (interface{}, error) {
+		id, _ := p.Args["id"].(int)
+		name := p.Args["name"]
+		description := p.Args["description"]
+		image_path := p.Args["image_path"]
+		start_date, err := helper.ParseTimestamp(p.Args["start_date"])
+		end_date := p.Args["end_date"]
+
+		err := service.UpdateBanner(
+			id,
+			name,
+			description,
+			image_path,
+			start_date,
+			end_date,
+		)
+
 		if err != nil {
 			log.Println(err.Error())
 			return nil, err
