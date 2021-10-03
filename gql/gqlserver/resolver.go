@@ -35,7 +35,7 @@ func (r *Resolver) AddBannerTags() graphql.FieldResolveFn {
 	return func(p graphql.ResolveParams) (interface{}, error) {
 		id, _ := p.Args["id"].(int)
 		tags := p.Args["tags"].(string)
-		err := service.AddTagBanner(
+		banner, err := service.AddTagBanner(
 			id,
 			strings.Split(tags, ","),
 		)
@@ -44,7 +44,7 @@ func (r *Resolver) AddBannerTags() graphql.FieldResolveFn {
 			return nil, err
 		}
 		// update to use Usecase from previous session
-		return nil, err
+		return banner, err
 	}
 }
 
