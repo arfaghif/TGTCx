@@ -51,13 +51,18 @@ func (r *Resolver) AddBannerTags() graphql.FieldResolveFn {
 func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
 	return func(p graphql.ResolveParams) (interface{}, error) {
 		id, _ := p.Args["id"].(int)
-		name := p.Args["name"]
-		description := p.Args["description"]
-		image_path := p.Args["image_path"]
-		start_date, err := helper.ParseTimestamp(p.Args["start_date"])
-		end_date := p.Args["end_date"]
+		name := p.Args["name"].(string)
+		description := p.Args["description"].(string)
+		image_path := p.Args["image_path"].(string)
+		start_date, err := helper.ParseTimestamp(p.Args["start_date"].(string))
+		end_date, err := helper.ParseTimestamp(p.Args["end_date"].(string))
 
-		err := service.UpdateBanner(
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		}
+
+		err = service.UpdateBanner(
 			id,
 			name,
 			description,
@@ -70,6 +75,7 @@ func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
 			log.Println(err.Error())
 			return nil, err
 		}
+
 		// update to use Usecase from previous session
 		return nil, err
 	}
