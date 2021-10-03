@@ -96,7 +96,7 @@ CREATE TABLE public.banners (
     description character varying NOT NULL,
     image_path character varying NOT NULL,
     start_date timestamp with time zone NOT NULL,
-    end_data timestamp with time zone NOT NULL
+    end_date timestamp with time zone NOT NULL
 );
 
 
@@ -327,54 +327,7 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
---
--- TOC entry 3038 (class 0 OID 66200)
--- Dependencies: 206
--- Data for Name: banner_tags; Type: TABLE DATA; Schema: public; Owner: postgres
---
 
-COPY public.banner_tags (banner_id, tag_id) FROM stdin;
-\.
-
-
---
--- TOC entry 3040 (class 0 OID 66209)
--- Dependencies: 208
--- Data for Name: banners; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.banners (id, name, description, image_path, start_date, end_data) FROM stdin;
-\.
-
-
---
--- TOC entry 3043 (class 0 OID 66232)
--- Dependencies: 211
--- Data for Name: tag_users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.tag_users (user_id, tag_id) FROM stdin;
-\.
-
-
---
--- TOC entry 3035 (class 0 OID 66187)
--- Dependencies: 203
--- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.tags (id, tag) FROM stdin;
-\.
-
-
---
--- TOC entry 3033 (class 0 OID 66176)
--- Dependencies: 201
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users (id, age, region, gender, tier, wallet_balance, product_pref) FROM stdin;
-\.
 
 
 --

@@ -46,6 +46,16 @@ func (s *SchemaWrapper) Init() error {
 					// },
 					Resolve: s.productResolver.GetProduct(),
 				},
+				"BannerUsers": &graphql.Field{
+					Type:        graphql.NewList(BannerType),
+					Description: "Get product by ID",
+					Args: graphql.FieldConfigArgument{
+						"id": &graphql.ArgumentConfig{
+							Type: graphql.Int,
+						},
+					},
+					Resolve: s.productResolver.GetBannerUser(),
+				},
 			},
 		}),
 

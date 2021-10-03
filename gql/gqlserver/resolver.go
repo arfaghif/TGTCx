@@ -89,3 +89,23 @@ func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
 		return nil, err
 	}
 }
+func (r *Resolver) GetBannerUser() graphql.FieldResolveFn {
+	return func(p graphql.ResolveParams) (interface{}, error) {
+		id, ok := p.Args["id"].(int)
+		if !ok {
+			return dictionary.Banner{}, errors.New("id invalid")
+		}
+
+		banners, err := service.GetBannerUser(
+			id,
+		)
+
+		if err != nil {
+			log.Println(err.Error())
+			return []dictionary.Banner{}, err
+		}
+
+		// update to use Usecase from previous session
+		return banners, err
+	}
+}

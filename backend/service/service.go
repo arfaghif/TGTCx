@@ -118,8 +118,6 @@ func UploadBanner(banner dictionary.Banner) (err error) {
 	`
 	err = tx.QueryRowContext(ctx, query, banner.Name, banner.Description, banner.ImgPath, banner.StartDate, banner.EndDate).Scan(&banner.ID)
 
-	log.Println(query)
-
 	if err != nil {
 		tx.Rollback()
 		log.Println("failed insert banner")
@@ -135,12 +133,14 @@ func UploadBanner(banner dictionary.Banner) (err error) {
 		if i != len(banner.Tags) {
 			query2 += ","
 		}
+		tags = append(tags, banner.Tags[i-1])
 	}
 
 	query2 += " ON CONFLICT DO NOTHING RETURNING id"
 	rows, err := tx.QueryContext(ctx, query2, tags...)
 	if err != nil {
-		log.Println(err.Error())
+		log.Println("failed insert tags")
+		log.Println(query2)
 		return
 	}
 
@@ -240,4 +240,29 @@ func UpdateBanner(id int, name string, description string, image_path string, st
 	fmt.Println(id, name, description, image_path, start_date, end_date)
 
 	return nil
+}
+
+func GetBannerUser(id int) (banners []dictionary.Banner, err error) {
+	db := database.GetDB()
+
+	query := `
+	SELECT banners.id, banners.name, banners.description, banners.image_path, banners.start_date, banners.end_date 
+	FROM banners NATURAL JOIN banner_tags, tags, tag_users, users
+	WHERE users.id = $1
+	GROUP BY banners.id
+	ORDER BY COUNT(banners.id) DESC
+	LIMIT 3
+	`
+
+	banners = []dictionary.Banner{}
+	rows, err := db.Query(query, id)
+	for rows.Next() {
+		banner := dictionary.Banner{}
+		if err = rows.Scan(&banner.ID, &banner.Name, &banner.Description, &banner.ImgPath, &banner.StartDate, &banner.EndDate); err != nil {
+			return
+		}
+		banners = append(banners, banner)
+	}
+
+	return
 }
