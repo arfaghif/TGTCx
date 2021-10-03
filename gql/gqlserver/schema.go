@@ -39,12 +39,7 @@ func (s *SchemaWrapper) Init() error {
 				"Products": &graphql.Field{
 					Type:        graphql.NewList(ProductType),
 					Description: "Get product by ID",
-					// Args: graphql.FieldConfigArgument{
-					// 	"product_id": &graphql.ArgumentConfig{
-					// 		Type: graphql.Int,
-					// 	},
-					// },
-					Resolve: s.productResolver.GetProduct(),
+					Resolve:     s.productResolver.GetProduct(),
 				},
 			},
 		}),
@@ -55,28 +50,28 @@ func (s *SchemaWrapper) Init() error {
 			Name:        "ProductCreate",
 			Description: "Create a new product",
 			Fields: graphql.Fields{
-				"CreateProducts": &graphql.Field{
-					Type:        ProductType,
-					Description: "Product Create",
-					Args: graphql.FieldConfigArgument{
-						"product_id": &graphql.ArgumentConfig{
-							Type: graphql.Int,
-						},
-						"name": &graphql.ArgumentConfig{
-							Type: graphql.String,
-						},
-						"product_price": &graphql.ArgumentConfig{
-							Type: graphql.Int,
-						},
-						"image_url": &graphql.ArgumentConfig{
-							Type: graphql.String,
-						},
-						"shop_name": &graphql.ArgumentConfig{
-							Type: graphql.String,
-						},
-					},
-					Resolve: s.productResolver.GetProduct(),
-				},
+				// "CreateProducts": &graphql.Field{
+				// 	Type:        ProductType,
+				// 	Description: "Product Create",
+				// 	Args: graphql.FieldConfigArgument{
+				// 		"product_id": &graphql.ArgumentConfig{
+				// 			Type: graphql.Int,
+				// 		},
+				// 		"name": &graphql.ArgumentConfig{
+				// 			Type: graphql.String,
+				// 		},
+				// 		"product_price": &graphql.ArgumentConfig{
+				// 			Type: graphql.Int,
+				// 		},
+				// 		"image_url": &graphql.ArgumentConfig{
+				// 			Type: graphql.String,
+				// 		},
+				// 		"shop_name": &graphql.ArgumentConfig{
+				// 			Type: graphql.String,
+				// 		},
+				// 	},
+				// 	Resolve: s.productResolver.GetProduct(),
+				// },
 				"AddBannerTag": &graphql.Field{
 					Type:        BannerType,
 					Description: "Add Tag a Banner",
@@ -89,6 +84,28 @@ func (s *SchemaWrapper) Init() error {
 						},
 					},
 					Resolve: s.productResolver.AddBannerTags(),
+				},
+				"UpdateBanner": &graphql.Field{
+					Type:        BannerType,
+					Description: "Update Banner Information",
+					Args: graphql.FieldConfigArgument{
+						"id": &graphql.ArgumentConfig{
+							Type: graphql.NewNonNull(graphql.Int),
+						},
+						"name": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+						"description": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+						"start_date": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+						"end_date": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+					},
+					Resolve: s.productResolver.UpdateBanner(),
 				},
 			},
 		}),
