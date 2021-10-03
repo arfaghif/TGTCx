@@ -96,7 +96,7 @@ CREATE TABLE public.banners (
     description character varying NOT NULL,
     image_path character varying NOT NULL,
     start_date timestamp with time zone NOT NULL,
-    end_data timestamp with time zone NOT NULL
+    end_date timestamp with time zone NOT NULL
 );
 
 
@@ -343,7 +343,7 @@ COPY public.banner_tags (banner_id, tag_id) FROM stdin;
 -- Data for Name: banners; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.banners (id, name, description, image_path, start_date, end_data) FROM stdin;
+COPY public.banners (id, name, description, image_path, start_date, end_date) FROM stdin;
 \.
 
 
