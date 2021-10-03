@@ -5,7 +5,7 @@
 -- Dumped from database version 13.3
 -- Dumped by pg_dump version 13.4
 
--- Started on 2021-10-03 11:02:12
+-- Started on 2021-10-03 11:34:03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -52,7 +52,7 @@ CREATE SEQUENCE public.banner_tags_banner_id_seq
 ALTER TABLE public.banner_tags_banner_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3049 (class 0 OID 0)
+-- TOC entry 3051 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: banner_tags_banner_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -77,7 +77,7 @@ CREATE SEQUENCE public.banner_tags_tag_id_seq
 ALTER TABLE public.banner_tags_tag_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3050 (class 0 OID 0)
+-- TOC entry 3052 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: banner_tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -119,7 +119,7 @@ CREATE SEQUENCE public.banners_id_seq
 ALTER TABLE public.banners_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3051 (class 0 OID 0)
+-- TOC entry 3053 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: banners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -157,7 +157,7 @@ CREATE SEQUENCE public.tag_users_tag_id_seq
 ALTER TABLE public.tag_users_tag_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3052 (class 0 OID 0)
+-- TOC entry 3054 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: tag_users_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -182,7 +182,7 @@ CREATE SEQUENCE public.tag_users_user_id_seq
 ALTER TABLE public.tag_users_user_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3053 (class 0 OID 0)
+-- TOC entry 3055 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: tag_users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -220,7 +220,7 @@ CREATE SEQUENCE public.tags_id_seq
 ALTER TABLE public.tags_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3054 (class 0 OID 0)
+-- TOC entry 3056 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -263,7 +263,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3055 (class 0 OID 0)
+-- TOC entry 3057 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -327,11 +327,56 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
+--
+-- TOC entry 3040 (class 0 OID 66200)
+-- Dependencies: 206
+-- Data for Name: banner_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.banner_tags (banner_id, tag_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3042 (class 0 OID 66209)
+-- Dependencies: 208
+-- Data for Name: banners; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.banners (id, name, description, image_path, start_date, end_date) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3045 (class 0 OID 66232)
+-- Dependencies: 211
+-- Data for Name: tag_users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tag_users (user_id, tag_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3037 (class 0 OID 66187)
+-- Dependencies: 203
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tags (id, tag) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3035 (class 0 OID 66176)
+-- Dependencies: 201
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
 
 
 --
--- TOC entry 3056 (class 0 OID 0)
+-- TOC entry 3058 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: banner_tags_banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -340,7 +385,7 @@ SELECT pg_catalog.setval('public.banner_tags_banner_id_seq', 1, false);
 
 
 --
--- TOC entry 3057 (class 0 OID 0)
+-- TOC entry 3059 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: banner_tags_tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -349,7 +394,7 @@ SELECT pg_catalog.setval('public.banner_tags_tag_id_seq', 1, false);
 
 
 --
--- TOC entry 3058 (class 0 OID 0)
+-- TOC entry 3060 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: banners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -358,7 +403,7 @@ SELECT pg_catalog.setval('public.banners_id_seq', 1, false);
 
 
 --
--- TOC entry 3059 (class 0 OID 0)
+-- TOC entry 3061 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: tag_users_tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -367,7 +412,7 @@ SELECT pg_catalog.setval('public.tag_users_tag_id_seq', 1, false);
 
 
 --
--- TOC entry 3060 (class 0 OID 0)
+-- TOC entry 3062 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: tag_users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -376,7 +421,7 @@ SELECT pg_catalog.setval('public.tag_users_user_id_seq', 1, false);
 
 
 --
--- TOC entry 3061 (class 0 OID 0)
+-- TOC entry 3063 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -385,7 +430,7 @@ SELECT pg_catalog.setval('public.tags_id_seq', 1, false);
 
 
 --
--- TOC entry 3062 (class 0 OID 0)
+-- TOC entry 3064 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -394,7 +439,7 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
--- TOC entry 2893 (class 2606 OID 66206)
+-- TOC entry 2895 (class 2606 OID 66206)
 -- Name: banner_tags banner_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -403,7 +448,7 @@ ALTER TABLE ONLY public.banner_tags
 
 
 --
--- TOC entry 2895 (class 2606 OID 66217)
+-- TOC entry 2897 (class 2606 OID 66217)
 -- Name: banners banners_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -412,7 +457,7 @@ ALTER TABLE ONLY public.banners
 
 
 --
--- TOC entry 2897 (class 2606 OID 66238)
+-- TOC entry 2899 (class 2606 OID 66238)
 -- Name: tag_users tag_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -430,6 +475,15 @@ ALTER TABLE ONLY public.tags
 
 
 --
+-- TOC entry 2893 (class 2606 OID 66250)
+-- Name: tags tags_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_unique UNIQUE (tag);
+
+
+--
 -- TOC entry 2889 (class 2606 OID 66184)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
@@ -439,7 +493,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2898 (class 2606 OID 66218)
+-- TOC entry 2900 (class 2606 OID 66218)
 -- Name: banner_tags banner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -448,7 +502,7 @@ ALTER TABLE ONLY public.banner_tags
 
 
 --
--- TOC entry 2899 (class 2606 OID 66223)
+-- TOC entry 2901 (class 2606 OID 66223)
 -- Name: banner_tags tag_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -457,7 +511,7 @@ ALTER TABLE ONLY public.banner_tags
 
 
 --
--- TOC entry 2901 (class 2606 OID 66244)
+-- TOC entry 2903 (class 2606 OID 66244)
 -- Name: tag_users tag_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -466,7 +520,7 @@ ALTER TABLE ONLY public.tag_users
 
 
 --
--- TOC entry 2900 (class 2606 OID 66239)
+-- TOC entry 2902 (class 2606 OID 66239)
 -- Name: tag_users user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -474,7 +528,7 @@ ALTER TABLE ONLY public.tag_users
     ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES public.users(id) NOT VALID;
 
 
--- Completed on 2021-10-03 11:02:13
+-- Completed on 2021-10-03 11:34:04
 
 --
 -- PostgreSQL database dump complete

@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -10,99 +9,6 @@ import (
 	"github.com/arfaghif/TGTCx/backend/database"
 	"github.com/arfaghif/TGTCx/backend/dictionary"
 )
-
-func SampleFunction() {
-	fmt.Printf("My Service!")
-
-	// // you can connect and
-	// // get current database connection
-	// db := database.GetDB()
-
-	// // construct query
-	// query := `
-	// SELECT something FROM table_something WHERE id = $1
-	// `
-	// // actual query process
-	// row = db.QueryRow(query, paramID)
-
-	// // read query result, and assign to variable(s)
-	// err = row.Scan(&ID, &name)
-}
-
-func AddProduct(product dictionary.Product) error {
-	// // you can connect and
-	// // get current database connection
-	db := database.GetDB()
-
-	// // construct query
-	query := `
-		INSERT INTO products (product_name, product_price, product_image, shop_name) VALUES($1, $2, $3, $4)
-	`
-	// actual query process
-
-	// // read query result, and assign to variable(s)
-	_, err := db.Exec(query, product.Name, product.ProductPrice, product.ImageURL, product.ShopName)
-	return err
-}
-
-func GetProduct(id int) (dictionary.Product, error) {
-
-	// // you can connect and
-	// // get current database connection
-	db := database.GetDB()
-
-	// // construct query
-	query := `
-	SELECT product_id, product_name, product_price, product_image, shop_name
-	FROM products 
-	WHERE product_id = $1
-	`
-	// defer db.Close()
-	// // actual query process
-	row := db.QueryRow(query, id)
-
-	product := dictionary.Product{}
-	// // read query result, and assign to variable(s)
-	err := row.Scan(&product.ID, &product.Name, &product.ProductPrice, &product.ImageURL, &product.ShopName)
-	return product, err
-}
-
-// func GetProducts() ([]dictionary.Product, error) {
-
-// 	// // you can connect and
-// 	// // get current database connection
-// 	db := database.GetDB()
-// 	query := `
-// 	SELECT product_id, product_name, product_price, product_image, shop_name
-// 	FROM products
-// 	`
-// 	// defer db.Close()
-// 	// // actual query process
-// 	rows, _ := db.Query(query)
-
-// 	defer rows.Close()
-
-// 	// An album slice to hold data from returned rows.
-// 	var product []dictionary.Product
-
-// 	// Loop through rows, using Scan to assign column data to struct fields.
-// 	for rows.Next() {
-// 		var alb Album
-// 		if err := rows.Scan(&alb.ID, &alb.Title, &alb.Artist,
-// 			&alb.Price, &alb.Quantity); err != nil {
-// 			return albums, err
-// 		}
-// 		albums = append(albums, album)
-// 	}
-// 	if err = rows.Err(); err != nil {
-// 		return albums, err
-// 	}
-
-// 	product := dictionary.Product{}
-// 	// // read query result, and assign to variable(s)
-// 	err := row.Scan(&product.ID, &product.Name, &product.ProductPrice, &product.ImageURL, &product.ShopName)
-// 	return product, err
-// }
 
 func UploadBanner(banner dictionary.Banner) (err error) {
 	db := database.GetDB()
@@ -236,8 +142,53 @@ func AddTagBanner(id int, tags []string) (banner dictionary.Banner, err error) {
 	return banner, tx.Commit()
 }
 
-func UpdateBanner(id int, name string, description string, image_path string, start_date time.Time, end_date time.Time) (err error) {
-	fmt.Println(id, name, description, image_path, start_date, end_date)
+func UpdateBanner(id int, name string, description string, start_date time.Time, end_date time.Time) (err error) {
+	db := database.GetDB()
+
+	get_query := `
+		SELECT name, description, start_date, end_date
+		FROM banners
+		WHERE id = $1
+	`
+
+	row := db.QueryRow(get_query, id)
+
+	var banner dictionary.Banner
+	// // read query result, and assign to variable(s)
+	err = row.Scan(&banner.Name, &banner.Description, &banner.StartDate, &banner.EndDate)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	if name == "" {
+		name = banner.Name
+	}
+
+	if description == "" {
+		description = banner.Description
+	}
+
+	if start_date.IsZero() || start_date.After(banner.StartDate) {
+		start_date = banner.StartDate
+	}
+
+	if end_date.IsZero() {
+		end_date = banner.EndDate
+	}
+
+	query := `
+		UPDATE banners
+		SET name = $2, description = $3, start_date = $4, end_date = $5
+		WHERE id = $1
+	`
+
+	_, err = db.Exec(query, id, name, description, start_date, end_date)
+
+	row = db.QueryRow(get_query, id)
+	err = row.Scan(&banner.Name, &banner.Description, &banner.StartDate, &banner.EndDate)
+
+	log.Println(banner.Name, banner.Description, banner.StartDate, banner.EndDate)
 
 	return nil
 }

@@ -11,8 +11,8 @@ const (
 	host     = "localhost"
 	port     = 5432
 	user     = "postgres"
-	password = "arfa"
-	dbname   = "tgtcx9"
+	password = "harry2001"
+	dbname   = "project_tgtcx"
 )
 
 var DB *sql.DB
