@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/arfaghif/TGTCx/backend/helper"
+	time_helper "github.com/arfaghif/TGTCx/backend/helpers"
 	"github.com/arfaghif/TGTCx/backend/service"
 	"github.com/graphql-go/graphql"
 )
@@ -54,8 +54,8 @@ func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
 		name := p.Args["name"].(string)
 		description := p.Args["description"].(string)
 		image_path := p.Args["image_path"].(string)
-		start_date, err := helper.ParseTimestamp(p.Args["start_date"].(string))
-		end_date, err := helper.ParseTimestamp(p.Args["end_date"].(string))
+		start_date, err := time_helper.ParseTimestamp(p.Args["start_date"].(string))
+		end_date, err := time_helper.ParseTimestamp(p.Args["end_date"].(string))
 
 		if err != nil {
 			log.Println(err.Error())
