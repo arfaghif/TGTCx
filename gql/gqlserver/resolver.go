@@ -46,15 +46,29 @@ func (r *Resolver) UpdateBanner() graphql.FieldResolveFn {
 	return func(p graphql.ResolveParams) (interface{}, error) {
 		//TODO: Nil Check: OMIT EMPTY
 		id := p.Args["id"].(int)
-		name := p.Args["name"].(string)
-		description := p.Args["description"].(string)
-		start_date, err := time_helper.ParseTimestamp(p.Args["start_date"].(string))
-		end_date, err := time_helper.ParseTimestamp(p.Args["end_date"].(string))
 
-		// if err != nil {
-		// 	log.Println(err.Error())
-		// 	return nil, err
-		// }
+		name, ok := p.Args["name"].(string)
+		if !ok {
+			name = ""
+		}
+
+		description, ok := p.Args["description"].(string)
+		if !ok {
+			description = ""
+		}
+
+		start_date_string, ok := p.Args["description"].(string)
+		if !ok {
+			start_date_string = "0001-01-01 00:00:00 +0000 UTC"
+		}
+
+		end_date_string, ok := p.Args["description"].(string)
+		if !ok {
+			end_date_string = "0001-01-01 00:00:00 +0000 UTC"
+		}
+
+		start_date, err := time_helper.ParseTimestamp(start_date_string)
+		end_date, err := time_helper.ParseTimestamp(end_date_string)
 
 		err = service.UpdateBanner(
 			id,

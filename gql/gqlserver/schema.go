@@ -22,11 +22,35 @@ func (s *SchemaWrapper) WithProductResolver(pr *Resolver) *SchemaWrapper {
 func (s *SchemaWrapper) Init() error {
 	// add gql schema as needed
 	schema, err := graphql.NewSchema(graphql.SchemaConfig{
+		Query: graphql.NewObject(graphql.ObjectConfig{
+			Name:        "ProductGetter",
+			Description: "All query related to getting product data",
+			Fields: graphql.Fields{
+				"ProductDetail": &graphql.Field{
+					Type:        ProductType,
+					Description: "Get product by ID",
+					Args: graphql.FieldConfigArgument{
+						"product_id": &graphql.ArgumentConfig{
+							Type: graphql.Int,
+						},
+					},
+					// To Be Changed
+					Resolve: s.productResolver.AddBannerTags(),
+				},
+				"Products": &graphql.Field{
+					Type:        graphql.NewList(ProductType),
+					Description: "Get product by ID",
+					// To Be Changed
+					Resolve: s.productResolver.AddBannerTags(),
+				},
+			},
+		}),
 
+		// uncomment this and add objects for mutation
 		// Mutation: graphql.NewObject(graphql.ObjectConfig{}),
 		Mutation: graphql.NewObject(graphql.ObjectConfig{
-			Name:        "ProductCreate",
-			Description: "Create a new product",
+			Name:        "BannerUpdate",
+			Description: "Update Banner Data",
 			Fields: graphql.Fields{
 				"AddBannerTag": &graphql.Field{
 					Type:        BannerType,
@@ -52,6 +76,9 @@ func (s *SchemaWrapper) Init() error {
 							Type: graphql.String,
 						},
 						"description": &graphql.ArgumentConfig{
+							Type: graphql.String,
+						},
+						"image_path": &graphql.ArgumentConfig{
 							Type: graphql.String,
 						},
 						"start_date": &graphql.ArgumentConfig{

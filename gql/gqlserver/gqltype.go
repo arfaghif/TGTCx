@@ -28,8 +28,8 @@ var ProductType = graphql.NewObject(
 
 var BannerType = graphql.NewObject(
 	graphql.ObjectConfig{
-		Name:        "User",
-		Description: "Detail of User",
+		Name:        "Banner",
+		Description: "Detail of Banner",
 		Fields: graphql.Fields{
 			"id": &graphql.Field{
 				Type: graphql.Int,
@@ -40,7 +40,7 @@ var BannerType = graphql.NewObject(
 			"description": &graphql.Field{
 				Type: graphql.String,
 			},
-			"img_path": &graphql.Field{
+			"image_path": &graphql.Field{
 				Type: graphql.String,
 			},
 			"start_date": &graphql.Field{

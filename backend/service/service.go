@@ -157,8 +157,6 @@ func UpdateBanner(id int, name string, description string, start_date time.Time,
 	// // read query result, and assign to variable(s)
 	err = row.Scan(&banner.Name, &banner.Description, &banner.StartDate, &banner.EndDate)
 
-	log.Println("MULA: ", banner.ID, banner.Name, banner.Description, banner.StartDate, banner.EndDate)
-
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -171,15 +169,13 @@ func UpdateBanner(id int, name string, description string, start_date time.Time,
 		description = banner.Description
 	}
 
-	if start_date.IsZero() {
+	if start_date.IsZero() || start_date.After(banner.StartDate) {
 		start_date = banner.StartDate
 	}
 
 	if end_date.IsZero() {
 		end_date = banner.EndDate
 	}
-
-	log.Println("Logging: ", id, name, description, start_date, end_date)
 
 	query := `
 		UPDATE banners
@@ -193,5 +189,6 @@ func UpdateBanner(id int, name string, description string, start_date time.Time,
 	err = row.Scan(&banner.Name, &banner.Description, &banner.StartDate, &banner.EndDate)
 
 	log.Println(banner.Name, banner.Description, banner.StartDate, banner.EndDate)
+
 	return nil
 }
